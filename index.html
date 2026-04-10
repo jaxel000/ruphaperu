@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lemon Weaver</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -44,7 +44,8 @@
   }
   .nav-logo {
     display: flex; align-items: center; gap: 0.6rem;
-    font-family: var(--font-head); font-size: 1.15rem; font-weight: 700;
+    font-family: var(--font-head); font-size: 1.05rem; font-weight: 700;
+    letter-spacing: -0.01em;
     color: var(--white); text-decoration: none;
   }
   .nav-logo svg { width: 28px; height: 28px; }
@@ -100,11 +101,12 @@
   @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
 
   .hero-title {
-    font-family: var(--font-head); font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 800; line-height: 1.05; letter-spacing: 0;
+    font-family: var(--font-head); font-size: clamp(2.8rem, 6.2vw, 5.2rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.02em;
     position: relative; z-index: 1;
     opacity: 0; animation: fadeUp 0.9s 0.35s forwards;
     max-width: 900px;
+    text-wrap: balance;
   }
   .hero-title span { color: var(--blue-mid); }
   .hero-sub {
@@ -171,9 +173,10 @@
     content: ''; width: 20px; height: 2px; background: var(--blue-mid);
   }
   .section-title {
-    font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800; line-height: 1.1; letter-spacing: -0.025em;
+    font-family: var(--font-head); font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+    font-weight: 800; line-height: 1.15; letter-spacing: -0.02em;
     color: var(--white); max-width: 640px;
+    text-wrap: balance;
   }
   .section-title span { color: var(--blue-mid); }
 
@@ -255,14 +258,16 @@
   .cons-card:hover { transform: translateY(-6px); background: rgba(41,82,227,0.06); border-color: rgba(41,82,227,0.25); }
   .cons-card:hover::before { transform: scaleX(1); }
   .cons-num {
-    font-family: var(--font-head); font-size: 3rem; font-weight: 800;
+    font-family: var(--font-head); font-size: 2.8rem; font-weight: 800;
+    letter-spacing: -0.02em;
     color: rgba(41,82,227,0.25); line-height: 1;
     margin-bottom: 1.2rem; transition: color 0.3s;
   }
   .cons-card:hover .cons-num { color: rgba(41,82,227,0.55); }
   .cons-card h3 {
-    font-family: var(--font-head); font-size: 1.1rem; font-weight: 700;
-    color: var(--white); margin-bottom: 0.75rem; line-height: 1.3;
+    font-family: var(--font-head); font-size: 1.08rem; font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white); margin-bottom: 0.75rem; line-height: 1.35;
   }
   .cons-card p { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
   .cons-image-wrap {
@@ -291,8 +296,10 @@
   }
   .prod-tab {
     padding: 0.65rem 1.4rem; border-radius: 8px 8px 0 0;
-    font-size: 0.9rem; font-weight: 500; cursor: pointer;
-    color: rgba(255,255,255,0.45); transition: color 0.2s, background 0.2s;
+    font-family: var(--font-head);
+    font-size: 0.92rem; font-weight: 600; cursor: pointer;
+    letter-spacing: -0.01em;
+    color: rgba(255,255,255,0.52); transition: color 0.2s, background 0.2s;
     border: none; background: transparent; position: relative; bottom: -1px;
     border-bottom: 2px solid transparent;
   }
@@ -306,8 +313,9 @@
   .prod-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 
   .prod-text h3 {
-    font-family: var(--font-head); font-size: 1.9rem; font-weight: 800;
+    font-family: var(--font-head); font-size: 1.75rem; font-weight: 800;
     line-height: 1.2; letter-spacing: -0.02em; color: var(--white); margin-bottom: 1rem;
+    text-wrap: balance;
   }
   .prod-text h3 span { color: var(--blue-mid); }
   .prod-text p { font-size: 1rem; color: rgba(255,255,255,0.55); line-height: 1.75; font-weight: 300; }
@@ -363,6 +371,9 @@
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     section { padding: 5rem 1.5rem; }
+    .hero-title { font-size: clamp(2.4rem, 10vw, 3.4rem); line-height: 1.1; }
+    .section-title { font-size: clamp(1.7rem, 8vw, 2.3rem); line-height: 1.18; }
+    .prod-text h3 { font-size: 1.5rem; }
     .sus-inner, .prod-panel.active { grid-template-columns: 1fr; }
     .cons-grid { grid-template-columns: 1fr; }
     .cons-header { flex-direction: column; }
@@ -411,7 +422,7 @@
   <div class="sus-inner">
     <div class="sus-image reveal">
       <div class="sus-blob"></div>
-      <img src="assets/img/2.png"/>
+      <img src="assets/img/2.png" alt="Hero">
     </div>
     <div class="sus-content">
       <div class="section-label reveal">Planes</div>
@@ -477,7 +488,7 @@
       </div>
     </div>
     <div class="cons-image-wrap reveal">
-      <img src="assets/img/3.png"/>
+      <img src="assets/img/3.png" alt="Hero">
     </div>
   </div>
 </section>
@@ -514,7 +525,7 @@
           <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-left:0.5rem;">MisHorasApp</span>
         </div>
         <div class="prod-mockup-img">
-          <img src="assets/img/4.png"/>
+          <img src="assets/img/4.png" alt="Hero">
         </div>
       </div>
     </div>
@@ -537,7 +548,7 @@
           <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-left:0.5rem;">IniciativasAPP</span>
         </div>
         <div class="prod-mockup-img">
-          <img src="assets/img/5.png"/>
+          <img src="assets/img/5.png" alt="Hero">
         </div>
       </div>
     </div>
@@ -559,7 +570,7 @@
           <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-left:0.5rem;">Docs — SharePoint</span>
         </div>
         <div class="prod-mockup-img">
-          <img src="assets/img/6.png"/>
+          <img src="assets/img/6.png" alt="Hero">
         </div>
       </div>
     </div>
