@@ -379,6 +379,97 @@
     .cons-header { flex-direction: column; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
+/* ── CHAT WIDGET ── */
+#chat-btn {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--blue); color: white; border: none; cursor: pointer;
+  box-shadow: 0 8px 30px rgba(41,82,227,0.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#chat-btn:hover { transform: scale(1.08); box-shadow: 0 12px 40px rgba(41,82,227,0.6); }
+#chat-btn svg { width: 24px; height: 24px; }
+
+#chat-box {
+  position: fixed; bottom: 5.5rem; right: 2rem; z-index: 999;
+  width: 360px; max-height: 520px;
+  background: #0D0F1A; border: 1px solid rgba(41,82,227,0.3);
+  border-radius: 20px; display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  transform: scale(0.95) translateY(10px); opacity: 0; pointer-events: none;
+  transition: all 0.25s cubic-bezier(.25,.8,.25,1);
+}
+#chat-box.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+.chat-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.chat-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(41,82,227,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.chat-header-info h4 { font-size: 0.9rem; font-weight: 600; color: white; }
+.chat-header-info span { font-size: 0.75rem; color: #4ade80; }
+.chat-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #4ade80; display: inline-block; margin-right: 4px;
+}
+
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  scroll-behavior: smooth;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.msg {
+  max-width: 82%; padding: 0.65rem 0.9rem;
+  border-radius: 14px; font-size: 0.875rem; line-height: 1.55;
+}
+.msg.bot {
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85);
+  border-radius: 4px 14px 14px 14px; align-self: flex-start;
+}
+.msg.user {
+  background: var(--blue); color: white;
+  border-radius: 14px 14px 4px 14px; align-self: flex-end;
+}
+.msg.typing { opacity: 0.5; font-style: italic; }
+
+.chat-input-area {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex; gap: 0.5rem; align-items: center;
+}
+.chat-input-area input {
+  flex: 1; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 50px;
+  padding: 0.6rem 1rem; color: white; font-size: 0.875rem;
+  font-family: var(--font-body); outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input-area input::placeholder { color: rgba(255,255,255,0.3); }
+.chat-input-area input:focus { border-color: rgba(41,82,227,0.5); }
+.chat-send {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.2s;
+}
+.chat-send:hover { opacity: 0.85; }
+.chat-send svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2; }
+
+@media (max-width: 900px) {
+  #chat-box { width: calc(100vw - 2rem); right: 1rem; bottom: 5rem; }
+  #chat-btn { bottom: 1.5rem; right: 1rem; }
+}
 </style>
 </head>
 <body>
@@ -627,6 +718,80 @@
     document.getElementById('navbar').style.background =
       window.scrollY > 50 ? 'rgba(13,15,26,0.95)' : 'rgba(13,15,26,0.72)';
   });
+</script>
+ <!-- CHAT WIDGET -->
+<button id="chat-btn" onclick="toggleChat()" title="Chatea con nosotros">
+  <svg id="chat-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</button>
+
+<div id="chat-box">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <h4>RuphaBot</h4>
+      <span><span class="chat-status-dot"></span>En línea</span>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg bot">¡Hola! Soy el asistente de RuphaPeru 👋 ¿En qué puedo ayudarte hoy?</div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter') sendMessage()"/>
+    <button class="chat-send" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const BACKEND_URL = "https://rupha-backend-production.up.railway.app";
+  const chatHistory = [];
+  let chatOpen = false;
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-box').classList.toggle('open', chatOpen);
+    if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 300);
+  }
+
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.textContent = text;
+    const msgs = document.getElementById('chat-messages');
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    addMessage(text, 'user');
+    chatHistory.push({ role: 'user', content: text });
+
+    const typing = addMessage('Escribiendo...', 'bot typing');
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+      const data = await res.json();
+      typing.remove();
+      addMessage(data.respuesta, 'bot');
+      chatHistory.push({ role: 'assistant', content: data.respuesta });
+    } catch (e) {
+      typing.remove();
+      addMessage('Hubo un error. Por favor intenta de nuevo.', 'bot');
+    }
+  }
 </script>
 </body>
 </html>
